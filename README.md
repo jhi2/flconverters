@@ -13,7 +13,7 @@ Via pip:
 ```
 
 This is my first attempt at creating a library. This library allows for the conversion of files into other formats (both as a single file and as a batch).
-Currently, installation is available through pip, but in the future conda installation will be possible.
+It relies on pillow, opencv, XLSXWriter and docx for most conversions. The rest are done by default python libraries. Currently, installation is available through pip, but in the future conda installation will be possible.
 
 ## Features
 
