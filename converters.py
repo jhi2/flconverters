@@ -20,12 +20,12 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class txtconvert:
-    """Holds method to convert .txt and other text document files into .docx format. Conversions include
+    """Holds function to convert .txt and other text document files into .docx format. Conversions include
 
     Args:
-        * `__file__` ([type]: str): Input file/directory.
-        * `disable` ([type]: bool): Argument to disable or enable the stdout of the tqdm progress bar.
-        * `__d__` ([type]: str): Output directory. Default is the current working directory.
+        * `__file__` ([type]: `str`): Input file/directory.
+        * `disable` ([type]: `bool`): Argument to disable or enable the stdout of the tqdm progress bar.
+        * `__d__` ([type]: `str`): Output directory. Default is the current working directory.
 
     Functions: 
 
@@ -122,16 +122,16 @@ class txtconvert:
             raise TypeError(f"{self.__file__} must either be a directory that contains at least 1 compatible file or an individual compatible file.")
 
 class imgconvert():
-    """Holds multiple methods to convert image files into other file formats. Conversions include:
+    """Holds multiple functions to convert image files into other file formats. Conversions include:
        * image to pdf.
        * image to base64 text file.
        * images to binary.
        * multiple compressed/raw image formats to .jpeg and .png
 
     Args:
-        * `__file__` ([type]: str): Input file/directory.
-        * `__disable__` ([type]: bool): Argument to disable or enable the stdout of the tqdm progress bar.
-        * `__d__` ([type]: str): Output directory. Default is the current working directory.
+        * `__file__` ([type]: `str`): Input file/directory.
+        * `__disable__` ([type]: `bool`): Argument to disable or enable the stdout of the tqdm progress bar.
+        * `__d__` ([type]: `str`): Output directory. Default is the current working directory.
 
     Functions:  
                 >>> img_pdf()
@@ -492,9 +492,9 @@ class sheetconvert():
     (.xlsx, .csv, .tsv) into .xlsx, .csv or .tsv.
 
     Args:
-        * `__file__` ([type]: str): Input file/directory.
-        * `disable` ([type]: bool): Argument to disable or enable the stdout of the tqdm progress bar.
-        * `__d__` ([type]: str): Output directory. Default is the current working directory.
+        * `__file__` ([type]: `str`): Input file/directory.
+        * `disable` ([type]: `bool`): Argument to disable or enable the stdout of the tqdm progress bar.
+        * `__d__` ([type]: `str`): Output directory. Default is the current working directory.
 
     Functions:
         >>> convertsh(totype)
