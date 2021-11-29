@@ -20,8 +20,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 class txtconvert:
-    """Holds multiple methods to convert .txt and other text document files into other file formats. Conversions include:
-       * Text Document to `.docx` file format.
+    """Holds method to convert .txt and other text document files into .docx format. Conversions include
 
     Args:
         * `__file__` ([type]: str): Input file/directory.
