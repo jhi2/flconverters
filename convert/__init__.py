@@ -1,1 +1,1 @@
-from .flconverters import txtconvert, sheetconvert, imgconvert
+from flconverters import txtconvert, sheetconvert, imgconvert
