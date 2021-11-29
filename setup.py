@@ -35,7 +35,7 @@ def load_requirements(flname):
     return requirements
 
 setuptools.setup(
-    name="converters",
+    name="flconverters",
     version="1.0.0",
     author = "Christos Synodinos",
     author_email = "chris_sinodinos@outlook.com",
