@@ -36,15 +36,14 @@ def load_requirements(flname):
 
 setuptools.setup(
     name="flconverters",
-    version="1.0.0.3",
+    version="1.0.0.4",
     author = "Christos Synodinos",
     author_email = "chris_sinodinos@outlook.com",
     url="https://github.com/CSynodinos/converters",
     description = "Multiple file converters",
     long_description = load_long_description('README.md'),
     long_description_content_type="text/markdown",
-    package_dir={"": "flconverters"},
-    packages=setuptools.find_packages(where="flconverters",exclude=EXCLUDE_FROM_PACKAGES),
+    packages=setuptools.find_packages(exclude=EXCLUDE_FROM_PACKAGES),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
