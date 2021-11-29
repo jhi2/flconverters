@@ -3,7 +3,7 @@
 import os
 import setuptools
 
-EXCLUDE_FROM_PACKAGES = ["Output", "dist", "tests"]
+EXCLUDE_FROM_PACKAGES = ["Output", "tests"]
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
