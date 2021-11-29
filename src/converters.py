@@ -124,7 +124,7 @@ class txtconvert:
 class imgconvert():
     """Holds multiple functions to convert image files into other file formats. Conversions include:
        * image to pdf.
-       * image to base64 text file.
+       * image to base64 text file (UTF-8 encryption).
        * images to binary.
        * multiple compressed/raw image formats to .jpeg and .png
 
