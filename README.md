@@ -2,14 +2,14 @@
 A Module containing multiple file converters.
 
 ## Authors
--[@CSynodinos] (https://github.com/CSynodinos)
+[@CSynodinos] (https://github.com/CSynodinos)
 
 ## Installation
 
 Via pip:
 
 ```bash
-  pip install package_template
+  pip install converters
 ```
 
 This is my first attempt at creating a library. This library allows for the conversion of files into other formats (both as a single file and as a batch).
