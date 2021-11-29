@@ -1,0 +1,9 @@
+# files
+*.pyc
+*.txt
+.vscode/
+
+# package files
+build/
+dist/
+*egg-info/
