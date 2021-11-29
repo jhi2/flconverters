@@ -43,14 +43,13 @@ setuptools.setup(
     description = "Multiple file converters",
     long_description = load_long_description('README.md'),
     long_description_content_type="text/markdown",
-    packages=setuptools.find_packages(exclude=EXCLUDE_FROM_PACKAGES),
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src",exclude=EXCLUDE_FROM_PACKAGES),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     install_requires=load_requirements("requirements.txt"),
-    package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
     python_requires='>=3.6'
 )
