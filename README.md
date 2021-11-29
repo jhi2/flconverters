@@ -1,4 +1,4 @@
-# Converters
+# flonverters
 A Module containing multiple file converters.
 
 ## Authors
@@ -9,7 +9,7 @@ A Module containing multiple file converters.
 Via pip:
 
 ```bash
-  pip install converters
+  pip install flconverters
 ```
 
 This is my first attempt at creating a library. This library allows for the conversion of files into other formats (both as a single file and as a batch).

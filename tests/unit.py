@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from converters import txtconvert, imgconvert, sheetconvert
+from flconverters import txtconvert, imgconvert, sheetconvert
 
 class test():
     """Wrapper function for unit testing the converters library.
