@@ -2,7 +2,7 @@
 A Module containing multiple file converters.
 
 ## Authors
-[@CSynodinos] (https://github.com/CSynodinos)
+[CSynodinos](https://github.com/CSynodinos)
 
 ## Installation
 
