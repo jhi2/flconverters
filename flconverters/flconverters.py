@@ -34,7 +34,7 @@ def _format_check(*args, fmtype):
     for n in args:
         a = type(n).__name__
         if not isinstance(n, fmtype):
-            raise TypeError(f'{n} must be a string not a type {a}')
+            raise TypeError(f'{n} must be of type {fmtype} not a type {a}')
 
 def typecheck(__object__):
     """Check whether object is a directory.
