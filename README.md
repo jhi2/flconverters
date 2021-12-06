@@ -1,5 +1,5 @@
 # flconverters
-A Module containing multiple file converters.
+A Python module containing multiple file converters.
 
 ## Authors
 [CSynodinos](https://github.com/CSynodinos)
