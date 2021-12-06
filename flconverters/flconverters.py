@@ -23,18 +23,16 @@ warnings.filterwarnings("ignore")
 
 def _format_check(*args, fmtype):
     """Checks for variable/s type. Helper to _typecheck.
-
     Args:
-        * `__input__` ([type]: any): Input variable.
+        * `*args` ([type]: any): Input variable/s to check.
         * `fmtype` ([type]: any): Type of variable to check.
-
     Raises:
         TypeError: When type of variable is != to `fmtype`
     """
     for n in args:
         a = type(n).__name__
         if not isinstance(n, fmtype):
-            raise TypeError(f'{n} must be of type {fmtype} not a type {a}')
+            raise TypeError(f'{n} must be of type {fmtype.__name__} not a type {a}')
 
 def typecheck(__object__):
     """Check whether object is a directory.
