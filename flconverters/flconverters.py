@@ -178,9 +178,9 @@ class txtconvert:
     disable: bool
     __file__: str
 
-    def __init__(self, __file__, __disable__ = False, __d__ = os.getcwd()):
+    def __init__(self, __file__, disable = False, __d__ = os.getcwd()):
         self.__file__ = __file__
-        self.disable = __disable__
+        self.disable = disable
         self.__d__ = __d__
 
         # Check class arguments for errors.
@@ -192,8 +192,8 @@ class txtconvert:
         if not ((os.path.isdir(__file__)) or os.path.isfile(__file__)):
             raise ValueError('__file__ must be a path to a file or directory.')
 
-        if not isinstance(__disable__, bool):
-            raise ValueError(f'__disable__ must be Boolean, not of Type: {(type(__disable__)).__name__}.')
+        if not isinstance(disable, bool):
+            raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
 
         if not os.path.isdir(__d__):
             raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
@@ -265,7 +265,7 @@ class imgconvert():
 
     Args:
         * `__file__` ([type]: `str`): Input file/directory.
-        * `__disable__` ([type]: `bool`): Argument to disable or enable the stdout of the tqdm progress bar.
+        * `disable` ([type]: `bool`): Argument to disable or enable the stdout of the tqdm progress bar.
         * `__d__` ([type]: `str`): Output directory. Default is the current working directory.
 
     Functions:  
@@ -292,9 +292,9 @@ class imgconvert():
     pdf: str
     format: str
 
-    def __init__(self, __file__, __disable__ = False, __d__ = os.getcwd()):
+    def __init__(self, __file__, disable = False, __d__ = os.getcwd()):
         self.__file__ = __file__
-        self.disable = __disable__
+        self.disable = disable
         self.__d__ = __d__
 
         # Check class arguments for errors.
@@ -306,8 +306,8 @@ class imgconvert():
         if not ((os.path.isdir(__file__)) or os.path.isfile(__file__)):
             raise ValueError('__file__ must be a path to a file or directory.')
 
-        if not isinstance(__disable__, bool):
-            raise ValueError(f'__disable__ must be Boolean, not of Type: {(type(__disable__)).__name__}.')
+        if not isinstance(disable, bool):
+            raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
 
         if not os.path.isdir(__d__):
             raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
@@ -647,9 +647,9 @@ class sheetconvert():
     csv_file: str
     xlsx_name: str 
 
-    def __init__(self, __file__, __disable__ = False, __d__ = os.getcwd()):
+    def __init__(self, __file__, disable = False, __d__ = os.getcwd()):
         self.__file__ = __file__
-        self.disable = __disable__
+        self.disable = disable
         self.__d__ = __d__
 
         # Check class arguments for errors.
@@ -661,8 +661,8 @@ class sheetconvert():
         if not ((os.path.isdir(__file__)) or os.path.isfile(__file__)):
             raise ValueError('__file__ must be a path to a file or directory.')
 
-        if not isinstance(__disable__, bool):
-            raise ValueError(f'__disable__ must be Boolean, not of Type: {(type(__disable__)).__name__}.')
+        if not isinstance(disable, bool):
+            raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
 
         if not os.path.isdir(__d__):
             raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
