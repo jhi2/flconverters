@@ -168,7 +168,7 @@ class txtconvert:
 
     Example with txt_docx():
 
-    >>> from convert.flconverters import txtconvert
+    >>> from flconverters import txtconvert
 
     >>> txtconv = txtconvert(__file__ = path/to/file/, d = path/to/output/directory)
 
@@ -278,7 +278,7 @@ class imgconvert():
                 >>> img_format(format)
 
     Example with img_pdf:
-                >>> from convert.flconverters import imgconvert
+                >>> from flconverters import imgconvert
                 
                 >>> imgconv = imgconvert(__file__ = path/to/file/or_list_of_file_paths, d = path/to/output/directory)  
                 
@@ -635,7 +635,7 @@ class sheetconvert():
         >>> convertsh(totype)
     
     Example:
-        >>> from convert.flconverters import sheetconvert
+        >>> from flconverters import sheetconvert
         >>> a = sheetconvert(__file__ = 'path/to/file/or/dir', __d__ = 'path/to/output/dir')
         >>> a.convertsh(totype = '.csv')
     """
