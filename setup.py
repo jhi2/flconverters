@@ -36,7 +36,7 @@ def load_requirements(flname):
 
 setuptools.setup(
     name="flconverters",
-    version="1.1.0",
+    version="1.1.1",
     author = "Christos Synodinos",
     author_email = "chris_sinodinos@outlook.com",
     url="https://github.com/CSynodinos/converters",
