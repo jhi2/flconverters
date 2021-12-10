@@ -62,24 +62,18 @@ class _basehelpers:
             if not x.exists():
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), inp)
 
-class _inpchecker:
-    def __init__(self, inp1, inp2, ftype):
-        """Runs all the functions of the _basehelpers class. 
+def _inpchecker(inp1, inp2, ftype):
+    """Runs all the functions of the _basehelpers class. 
 
-        Args:
-            * `inp1` ([type]: `str`): Input file/directory.
-            * `inp2` ([type]: `str`): Output file/directory.
-            * `ftype` ([type]: `str`): Type of file to check for.
-        """
+    Args:
+        * `inp1` ([type]: `str`): Input file/directory.
+        * `inp2` ([type]: `str`): Output file/directory.
+        * `ftype` ([type]: `str`): Type of file to check for.
+    """
 
-        self.inp1 = inp1
-        self.inp2 = inp2
-        self.ftype = ftype
-
-    def initchecker(self):
-        basehelpers = _basehelpers(self.inp1, self.inp2, self.ftype)
-        basehelpers._format_check()  # Check if objects are of ftype.
-        basehelpers._pathcheck() # Check for the existance of the input paths.
+    basehelpers = _basehelpers(inp1, inp2, fmtype = ftype)
+    basehelpers._format_check()  # Check if objects are of ftype.
+    basehelpers._pathcheck() # Check for the existance of the input paths.
 
 class _helpers:
     """Contains multiple static helper functions, which include:
@@ -276,7 +270,8 @@ class txtconvert:
         else:
             type_check = False
             dir_contents = None # __file__ instance is not a parent/child directory.
-            checkfl = self.__file__.lower().endswith(extensions) # Check __file__ instance file type.
+            exttup = tuple(extensions)  # Used in checkfl for .lower().
+            checkfl = self.__file__.lower().endswith(exttup) # Check __file__ instance file type.
 
         # __file__ instance is a parent/child directory and contains at least 1 .txt file.
         if type_check == True and checktxt == True:              
@@ -297,8 +292,9 @@ class txtconvert:
             with open(self.__file__, 'r', encoding = enc) as inf:  
                 line = inf.read()
                 doc.add_paragraph(line)
-                output = doc.save(_helpers.outpath(dinput = self.__d__, flinput = self.__file__) + ".docx") # full path of output .docx file to save.
-            print(f'Conversion complete! New file is saved in {output}.')
+                outpath = self.__d__
+                doc.save(_helpers.outpath(dinput = outpath, flinput = self.__file__) + ".docx") # full path of output .docx file to save.
+            print(f'Conversion complete! New file is saved in {outpath}.')
 
         # __file__ instance is neither a parent/child directory or a file in .txt format. 
         else:
