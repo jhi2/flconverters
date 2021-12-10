@@ -120,7 +120,7 @@ class _helpers:
 
     @staticmethod
     def compatibility(__inpobj__, __compat__):
-        """Check for file compatibility. 
+        """Check for file/s compatibility.
 
         Removes elements from an object (`__inpobj__`) that don't contain substrings
         equal to any of the substring of another list (`__compat__`).
@@ -375,7 +375,7 @@ class imgconvert:
         pdf_image.save(flsave)
         return flsave
 
-    def _64conv(self, __inp__, __outd__):
+    def _64conv(self, __inp__, __outd__, enctp):
         """Inner function to convert an image file to base64 UTF-8 encryption (.txt format).
 
         Args:
@@ -388,13 +388,13 @@ class imgconvert:
 
         with open(__inp__, "rb") as img:
             base64_str = base64.b64encode(img.read())
-            base64utf8 = base64_str.decode('utf-8') # Encode to UTF-8 standard.
+            base64_enctp = base64_str.decode(enctp) # Encode to UTF-8 standard.
             file_name = os.path.splitext(os.path.basename(__inp__))[0]
             subdir = os.path.join(__outd__, file_name)
             txt_f = (subdir + '.txt')
 
             with open(txt_f, "w") as txt:
-                txt.write(base64utf8)
+                txt.write(base64_enctp)
             return txt_f
 
     def _imgbnr(self, __inp__, __outd__, __kp__, __bw__):
@@ -476,8 +476,22 @@ class imgconvert:
         else:
             raise TypeError(f"{self.__file__} must either be a directory that contains at least 1 supported image file or an individual supported image file.")
 
-    def img_base64(self):
-        """Encode an image file or directory with images to base64 (`UTF-8`) and save it as `.txt`
+    def img_base64(self, encode_type = 'utf-8'):
+        """Encode an image file or directory with images to base64 and save it as `.txt`
+        
+        Args:
+            * `encode_type` ([type]: `str`, default = `utf-8`): Type of byte encoding. Default is utf-8 if not specified.
+
+        Supported encoding types:
+            * `utf-8`, `utf-16`, `utf-32`, `ascii`
+
+        Supported file format inputs:
+
+        * `.png`, `.jpeg`, `.jpg`, `.dng`, `.raw`, `.cr2`, `.crw`, `.erf`, `.raf`, `.tif`,
+
+        * `.tiff`, `.kdc`, `.dcr`, `.mos`, `.mef`, `.nef`, `.orf`, `.rw2`, `.pef`,
+
+        * `.x3f`, `.srw`, `.srf`, `.sr2`, `.arw`, `.mdc`, `.bmp`, `.mrw`
         """
 
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
@@ -492,16 +506,22 @@ class imgconvert:
                 '.DCR', '.MOS', '.MEF', '.NEF', '.ORF', '.RW2', '.PEF', '.X3F', '.SRW', '.SRF', '.SR2', '.ARW', '.MDC', '.MRW', 
                 '.jpeg', '.png', '.jpg', '.JPEG', '.PNG', '.JPG')
 
+        # Supported encoding type.
+        supp_enc = ('utf-8', 'utf-16', 'utf-32', 'ascii')
+        if not encode_type in supp_enc:
+            x = ','.join([str(" " + i) for i in supp_enc])
+            raise TypeError(f'{encode_type} encoding type is not supported. Only{x} encodings are supported.')
+
         # __file__ is a parent/child directory.
         if type_check == True:
             dir_contents = _helpers.compatibility(__inpobj__ = self.__file__, __compat__ = supp_ext)
-            for f in tqdm(dir_contents, desc = 'Converting %i files to base64 format' %len(dir_contents) , unit=' Files', disable = self.disable):  # Iterate over all the entries
+            for f in tqdm(dir_contents, desc = 'Converting %i files to base64 format with %s encoding' %(len(dir_contents), encode_type), unit=' Files', disable = self.disable):  # Iterate over all the entries
                 flinp = os.path.join(self.__file__, f)
-                self._64conv(__inp__ = flinp, __outd__ = self.__d__) 
+                self._64conv(__inp__ = flinp, __outd__ = self.__d__, enctp = encode_type) 
 
         else:
-            print(f'Converting {self.__file__} into base64 format with UTF-8 encoding.')
-            output = self._64conv(__inp__ = self.__file__, __outd__ = self.__d__)
+            print(f'Converting {self.__file__} into base64 format with {encode_type} encoding.')
+            output = self._64conv(__inp__ = self.__file__, __outd__ = self.__d__, enctp = encode_type)
             print(f'Conversion complete! New file is saved in {output}.')   
 
     def img_pdf(self):
@@ -910,3 +930,6 @@ class sheetconvert:
             print(f'Converting {self.__file__} into {totype} format...') 
             output = self._conversion_method(__inp__ = self.__file__, outdir = self.__d__, typeinp = totype)
             print(f'Conversion complete! New file is saved in {output}.')
+
+if __name__ == "__main__":
+    a = imgconvert(__file__ = r'E:\Documents\Python_Scripts\converters\flconverters\circle_20_random.tif').img_base64(encode_type = 'adsaadaas')
