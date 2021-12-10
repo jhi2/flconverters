@@ -644,7 +644,7 @@ class imgconvert:
             print(f'Converting {self.__file__} into .jpeg format.')        
             output = _tojpg(flname = subdir, infl = self.__file__)
             print(f'Conversion complete! New file is saved in {output}.')  
-        
+
         # __file__ is not a parent/child directory, desired format is JPG.
         elif type_check == False and self.__file__.endswith(ext) and format == ".jpg":        
             subdir = _helpers.outpath(dinput = self.__d__, flinput = self.__file__)
