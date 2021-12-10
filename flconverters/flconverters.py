@@ -81,7 +81,15 @@ class _inpchecker:
         basehelpers._format_check()  # Check if objects are of ftype.
         basehelpers._pathcheck() # Check for the existance of the input paths.
 
-class _helpers():
+class _helpers:
+    """Contains multiple static helper functions, which include:
+    >>> sminp(inp, outext)
+    >>> outpath(dinput, flinput)
+    >>> compatibility(__inpobj__, __compat__)
+    >>> typencd(__inpobj__)
+    >>> typecheck(__object__)
+    >>> outpath(dinput, flinput)
+    """
 
     @staticmethod
     def sminp(inp, outext):
@@ -353,7 +361,7 @@ class imgconvert:
             raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
 
     def _pdfconv(self, __inp__, __outd__):
-        """Inner function to convert a file to pdf.
+        """Inner function to convert an image file to pdf.
 
         Args:
             * `__inp__` ([type]: `str`): Input file
@@ -372,7 +380,7 @@ class imgconvert:
         return flsave
 
     def _64conv(self, __inp__, __outd__):
-        """Inner function to convert a file to base64 UTF-8 encryption (.txt format).
+        """Inner function to convert an image file to base64 UTF-8 encryption (.txt format).
 
         Args:
             * `__inp__` ([type]: `str`): Input file.
@@ -394,7 +402,7 @@ class imgconvert:
             return txt_f
 
     def _imgbnr(self, __inp__, __outd__, __kp__, __bw__):
-        """Inner function to convert a file to binary. Original file format type is kept the same.
+        """Inner function to convert an image file to binary. Original file format type is kept the same.
 
         Args:
             * `__inp__` ([type]: `str`): Input file.
@@ -569,7 +577,7 @@ class imgconvert:
 
         def _tojpg(flname, infl):   # Used in type_check if and elif statements.
             """Local function that converts the input image file to .jpeg/.jpg.
-            
+
             Returns:
                 ([type]: `str`): The full path of the output .jpeg/.jpg file."""
 
@@ -671,7 +679,7 @@ class sheetconvert:
 
     Functions:
         >>> convertsh(totype)
-    
+
     Example:
         >>> from flconverters import sheetconvert
         >>> a = sheetconvert(__file__ = 'path/to/file/or/dir', __d__ = 'path/to/output/dir')
