@@ -930,6 +930,3 @@ class sheetconvert:
             print(f'Converting {self.__file__} into {totype} format...') 
             output = self._conversion_method(__inp__ = self.__file__, outdir = self.__d__, typeinp = totype)
             print(f'Conversion complete! New file is saved in {output}.')
-
-if __name__ == "__main__":
-    a = imgconvert(__file__ = r'E:\Documents\Python_Scripts\converters\flconverters\circle_20_random.tif').img_base64(encode_type = 'adsaadaas')
