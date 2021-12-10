@@ -613,7 +613,7 @@ class imgconvert:
             """Local function that assigns the name and path of the output file.
 
             Returns:
-                ([type]: `str`): The full path of the output file [0] and the full path of the input file [1]."""
+                ([type]: `str`): The full path of the output file [0] and the full path of the input file."""
 
             flpath = os.path.join(obj, fl)
             file_name = os.path.splitext(os.path.basename(flpath))[0]
