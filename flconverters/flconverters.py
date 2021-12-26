@@ -239,7 +239,7 @@ class txtconvert:
             raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
 
         if not os.path.isdir(__d__):
-            raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
+            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
 
     def txt_docx(self):
         """Convert and Text Document type file or a directory with Text Document type files into `.docx` file/s.
@@ -322,6 +322,7 @@ class imgconvert:
                 >>> img_format(format)
 
     Example with img_pdf:
+
                 >>> from flconverters import imgconvert
                 
                 >>> imgconv = imgconvert(__file__ = path/to/file/or_list_of_file_paths, d = path/to/output/directory)  
@@ -354,7 +355,7 @@ class imgconvert:
             raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
 
         if not os.path.isdir(__d__):
-            raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
+            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
 
     def _pdfconv(self, __inp__, __outd__):
         """Inner function to convert an image file to pdf.
@@ -697,6 +698,7 @@ class sheetconvert:
         >>> convertsh(totype)
 
     Example:
+
         >>> from flconverters import sheetconvert
         >>> a = sheetconvert(__file__ = 'path/to/file/or/dir', __d__ = 'path/to/output/dir')
         >>> a.convertsh(totype = '.csv or .xlsx or .tsv')
@@ -727,7 +729,7 @@ class sheetconvert:
             raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
 
         if not os.path.isdir(__d__):
-            raise ValueError(f'__d__ must be a directory and a Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
+            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
 
     def _xlsx_csv(self, spreadsheet, direc):
             """Internal function to convert an `.xslx` file to a `.csv` file.
@@ -744,9 +746,7 @@ class sheetconvert:
             file_name = os.path.splitext(os.path.basename(spreadsheet))[0]
             subdir = os.path.join(direc, file_name)
             csv_file = str(subdir + '.csv')
-            xlsx.to_csv (csv_file, 
-                    index = None,
-                    header=True)
+            xlsx.to_csv (csv_file, index = None, header=True)
 
             return csv_file
 
@@ -835,7 +835,7 @@ class sheetconvert:
             csvname = os.path.splitext(os.path.basename(spreadsheet))[0]
             csvnmext = csvname + ".tsv" 
             csvp = os.path.join(direc, csvnmext)
-            
+
             with open(spreadsheet,'r', encoding='utf-8') as tsvin, open(csvp, 'w', newline='', encoding='utf-8') as csvout:
                 tsvin = csv.reader(tsvin)
                 csvout = csv.writer(csvout, delimiter='\t')
@@ -847,7 +847,7 @@ class sheetconvert:
             tsvname = os.path.splitext(os.path.basename(spreadsheet))[0]
             tsvnmext = tsvname + ".csv" 
             tsvp = os.path.join(direc, tsvnmext)
-            
+
             with open(spreadsheet,'r', encoding='utf-8') as csvin, open(tsvp, 'w', newline='', encoding='utf-8') as tsvout:
                 csvin = csv.reader(csvin)
                 tsvout = csv.writer(tsvout, delimiter='\t')
@@ -904,7 +904,7 @@ class sheetconvert:
         supp_ext = ( ".xlsx", ".csv", ".tsv" )  # Spreadsheet supported extenstions.
 
         type_check = _helpers.typecheck(__object__ = self.__file__)
-        
+
         # __file__ is a parent/child directory.
         if type_check == True:
             if fromtype != None:
