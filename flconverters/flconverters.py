@@ -710,7 +710,12 @@ class sheetconvert:
     spreadsheet: str
     csv_file: str
     xlsx_name: str 
-
+    
+    ### TODO:   * Set internal functions as @staticmethods, since they don't access the instance of sheetconvert.
+    ###
+    ###         * Maybe make _conversion_method into @classmethod, since it's just a function that accesses 
+    ###           the static class methods, not the instance of sheetconvert.
+    
     def __init__(self, __file__, disable = False, __d__ = os.getcwd()):
         self.__file__ = __file__
         self.disable = disable
@@ -761,9 +766,9 @@ class sheetconvert:
             ([type]: `str`): The path of the output .xlsx.
         """
 
-        with open(spreadsheet, "r"):
-            read_file = pd.read_csv(spreadsheet)
-            file_name = os.path.splitext(os.path.basename(spreadsheet))[0]
+        with open(spreadsheet, "r") as spr:
+            read_file = pd.read_csv(spr)
+            file_name = os.path.splitext(os.path.basename(spr))[0]
             subdir = os.path.join(direc, file_name)
 
             xlsx_name = str(subdir + ".xlsx")
