@@ -14,9 +14,9 @@ class test():
     def txtconverter(self):
         txtcsvoutpath = os.path.join(self.outp, 'txt_docx')
         convtxtdocx = txtconvert(__file__ = self.inputp, __d__ = txtcsvoutpath)
-        print('* Running txt to csv')
+        print('* Running txt to .docx')
         convtxtdocx.txt_docx()
-        print('\nimg to pdf done!\n')
+        print('\n.txt to .docx done!\n')
 
     def images(self):
         pdfimgoutpath = os.path.join(self.outp, 'img_pdf')

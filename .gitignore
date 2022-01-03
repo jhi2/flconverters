@@ -3,6 +3,7 @@
 *.txt
 .vscode/
 .__pycache__/
+tests/__pycache__/
 
 # package files
 build/

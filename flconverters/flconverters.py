@@ -14,7 +14,8 @@ import base64
 from PIL import Image
 import pandas as pd
 import rawpy
-from docx import Document
+import docx
+from docx.shared import Pt
 from tqdm import tqdm
 from pathlib import Path
 from xlsxwriter.workbook import Workbook
@@ -241,7 +242,7 @@ class txtconvert:
         if not os.path.isdir(__d__):
             raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
 
-    def txt_docx(self):
+    def txt_docx(self, output_font = 'Arial'):
         """Convert and Text Document type file or a directory with Text Document type files into `.docx` file/s.
         
         Supported Text Document formats:
@@ -252,15 +253,27 @@ class txtconvert:
 
             *`.ini`
 
+        Args:
+        * `output_font` ([type]: `str`): Font for the converted text. Default is Arial.
+
         Raises:
         * `TypeError`: Raised when file is not a supported text document, or if input is not a file/directory,
-        or if input directory does not contain any supported file format.
+        or if input directory does not contain any supported file format. Can also be raised when no output_font is set, 
+        or if set output_font is not of type: str.
         """
 
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
 
         type_check = _helpers.typecheck(__object__ = self.__file__)
         extensions = [".txt", ".log", ".ini"] # Supported Text Document file extensions.
+
+        if not output_font:
+            raise TypeError('No output font has been selected for conversion.')
+        if output_font:
+            if isinstance(output_font, int) or isinstance(output_font, float) or isinstance(output_font, list) or isinstance(output_font, tuple) or isinstance(output_font, bool):
+                raise TypeError(f'output_font parameter must be of type: str. Type:{(type(output_font)).__name__}')
+        elif isinstance(output_font, str):
+            pass
 
         # Check if __file__ instance is a parent/child directory.
         if type_check == True:
@@ -276,7 +289,10 @@ class txtconvert:
         # __file__ instance is a parent/child directory and contains at least 1 .txt file.
         if type_check == True and checktxt == True:              
             for f in tqdm(dir_contents, desc = 'Converting %i files to .docx format' %(len(dir_contents)), unit = ' Files', disable = self.disable):  # Iterate over all the entries.
-                doc = Document() 
+                doc = docx.Document()
+                style = doc.styles['Normal']
+                font = style.font
+                font.name = output_font
                 flpath = os.path.join(self.__file__, f)
                 enc = _helpers.typencd(__inpobj__ = flpath)    
                 with open(flpath, 'r', encoding = enc) as inf:    
@@ -287,7 +303,10 @@ class txtconvert:
         # __file__ instance is *not* a parent/child directory, but is a .txt file.
         elif type_check == False and checkfl == True:
             print(f'Converting {self.__file__} into a .docx format.')
-            doc = Document()    
+            doc = docx.Document()
+            style = doc.styles['Normal']
+            font = style.font
+            font.name = output_font    
             enc = _helpers.typencd(__inpobj__ = self.__file__)
             with open(self.__file__, 'r', encoding = enc) as inf:  
                 line = inf.read()
@@ -731,8 +750,9 @@ class sheetconvert:
         if not os.path.isdir(__d__):
             raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
 
-    def _xlsx_csv(self, spreadsheet, direc):
-            """Internal function to convert an `.xslx` file to a `.csv` file.
+    @staticmethod
+    def _xlsx_csv(spreadsheet, direc):
+            """Static method to convert an `.xslx` file to a `.csv` file.
 
             Args:
                 * `spreadsheet` ([type]: `str`): path to the .xlsx file.
@@ -750,8 +770,9 @@ class sheetconvert:
 
             return csv_file
 
-    def _csv_xlsx(self, spreadsheet, direc):
-        """Internal function to convert a `.csv` file to an `.xlsx` file.
+    @staticmethod
+    def _csv_xlsx(spreadsheet, direc):
+        """Static method to convert a `.csv` file to an `.xlsx` file.
 
         Args:
             * `spreadsheet` ([type]: `str`): path to the .csv file.
@@ -773,8 +794,9 @@ class sheetconvert:
 
             return xlsx_name
 
-    def _xlsx_tsv(self, spreadsheet, direc):
-        """Internal function to convert an `.xlsx` file to a `.tsv` file.
+    @staticmethod
+    def _xlsx_tsv(spreadsheet, direc):
+        """Static method to convert an `.xlsx` file to a `.tsv` file.
 
         Args:
             * `spreadsheet` ([type]: `str`): path to the .xlsx file.
@@ -794,8 +816,9 @@ class sheetconvert:
 
         return outtsv
 
-    def _tsv_xlsx(self, spreadsheet, direc):
-        """Internal function to convert a `.tsv` file to an `.xlsx` file.
+    @staticmethod
+    def _tsv_xlsx(spreadsheet, direc):
+        """Static method to convert a `.tsv` file to an `.xlsx` file.
 
         Args:
             * `spreadsheet` ([type]: `str`): path to the .tsv file.
@@ -819,8 +842,9 @@ class sheetconvert:
 
         return xlsxp
 
-    def _csv_tsv_csv(self, spreadsheet, direc):
-        """Internal function to convert a `.csv` file to a `.tsv` file and vice versa.
+    @staticmethod
+    def _csv_tsv_csv(spreadsheet, direc):
+        """Static method to convert a `.csv` file to a `.tsv` file and vice versa.
 
         Args:
             * `spreadsheet` ([type]: `str`): path to the .csv/.tsv file.
@@ -855,8 +879,9 @@ class sheetconvert:
                     tsvout.writerow(row)
             return tsvp
 
-    def _conversion_method(self, __inp__, outdir, typeinp):
-        """Internal function. Checks for which conversion type the user requests and correlates that with the input file type.
+    @classmethod
+    def _conversion_method(cls, __inp__, outdir, typeinp):
+        """Class method that checks for which conversion type the user requests and correlates that with the input file type.
 
         Args:
             * `__inp__` ([type]: `str`): Input file.
@@ -871,28 +896,30 @@ class sheetconvert:
 
         # Correlate input file type with requested file conversion type. Run the appropriate conversion function.
         if __inp__.endswith(tuple(xlsxf)) and typeinp == ".csv":
-            output = self._xlsx_csv(spreadsheet = __inp__, direc = outdir)
+            output = cls._xlsx_csv(spreadsheet = __inp__, direc = outdir)
 
         elif __inp__.endswith(tuple(xlsxf)) and typeinp == ".tsv":
-            output = self._xlsx_tsv(spreadsheet = __inp__, direc = outdir)
+            output = cls._xlsx_tsv(spreadsheet = __inp__, direc = outdir)
 
         elif __inp__.endswith(tuple(csvf)) and typeinp == ".xlsx":
-            output = self._csv_xlsx(spreadsheet = __inp__, direc = outdir)
+            output = cls._csv_xlsx(spreadsheet = __inp__, direc = outdir)
 
         elif __inp__.endswith(tuple(csvf)) and typeinp == ".tsv":
-            output = self._csv_tsv_csv(spreadsheet = __inp__, direc = outdir)
+            output = cls._csv_tsv_csv(spreadsheet = __inp__, direc = outdir)
 
         elif __inp__.endswith(tuple(tsvf)) and typeinp == ".xlsx":
-            output = self._tsv_xlsx(spreadsheet = __inp__, direc = outdir)
+            output = cls._tsv_xlsx(spreadsheet = __inp__, direc = outdir)
 
         elif __inp__.endswith(tuple(tsvf)) and typeinp == ".csv":
-            output = self._csv_tsv_csv(spreadsheet = __inp__, direc = outdir)
+            output = cls._csv_tsv_csv(spreadsheet = __inp__, direc = outdir)
 
         return output
 
     def convertsh(self, totype, fromtype = None):
-        """Convert an `.xlsx`/`.csv`/`.tsv` file to either `.xlsx` or `.csv` or `.tsv`. If the file is
-        directory, it converts all the files in the directory that are `.xlsx`, `.tsv` and `.csv`.
+        """Convert an `.xlsx`/`.csv`/`.tsv` file to either `.xlsx` or `.csv` or `.tsv`. 
+
+        If the file is directory, it converts all the files in the directory 
+        that are `.xlsx`, `.tsv` and `.csv`.
 
         Args:
             * `fromtype` ([type]:`str`): specify what type of file to convert, e.g: '.csv', '.xlsx', '.tsv'. Used `only` on batch conversions.
