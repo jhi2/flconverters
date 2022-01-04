@@ -919,7 +919,7 @@ class sheetconvert:
 
         return output
 
-    def convertsh(self, totype, fromtype = None):
+    def convertsh(self, totype, fromtype):
         """Convert an `.xlsx`/`.csv`/`.tsv` file to either `.xlsx` or `.csv` or `.tsv`. 
 
         If the file is directory, it converts all the files in the directory 
