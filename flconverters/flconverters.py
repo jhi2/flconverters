@@ -59,8 +59,7 @@ class _basehelpers:
 
         for i in self.args:
             inp = ''.join(i)
-            x = Path(inp)
-            if not x.exists():
+            if not Path(inp).exists():
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), inp)
 
 def _inpchecker(inp1, inp2, ftype):
