@@ -1,6 +1,7 @@
 # files
 *.pyc
 .vscode/
+*test*
 .__pycache__/
 tests/__pycache__/
 

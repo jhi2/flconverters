@@ -83,6 +83,7 @@ class _helpers:
     >>> typencd(__inpobj__)
     >>> typecheck(__object__)
     >>> outpath(dinput, flinput)
+    >>> error_chk(args1, args2, args3)
     """
 
     @staticmethod
@@ -197,6 +198,38 @@ class _helpers:
 
         return subdir
 
+    @staticmethod
+    def error_chk(args1: str, args2: bool, args3: str) -> None:
+        """Check class input parameters for errors.
+
+        Args:
+            * args1 (str): First argument.
+            * args2 (bool): Second argument.
+            * args3 (str): Third argument.
+
+        Raises:
+            * OSError: Empty directory.
+            * OSError: Empty file.
+            * ValueError: args1 must be file/directory.
+            * ValueError: args2 must be boolean.
+            * ValueError: args3 must be directory.
+        """
+
+        if os.path.isdir(args1) and len(os.listdir(args1) ) == 0:
+            raise OSError(f'{args1} directory is empty.')
+        elif os.path.isfile(args1) and os.path.getsize(args1) == 0:
+            raise OSError(f'{args1} file is empty.')
+
+        if not ((os.path.isdir(args1)) or os.path.isfile(args1)):
+            raise ValueError('__file__ must be a path to a file or directory.')
+
+        if not isinstance(args2, bool):
+            raise ValueError(f'disable must be Boolean, not of Type: {(type(args2)).__name__}.')
+
+        if not os.path.isdir(args3):
+            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {args3} and of Type: {(type(args3)).__name__}.')
+
+
 class txtconvert:
     """Holds function to convert .txt and other text document files into .docx format.
 
@@ -226,21 +259,6 @@ class txtconvert:
         self.disable = disable
         self.__d__ = __d__
 
-        # Check class arguments for errors.
-        if os.path.isdir(__file__) and len(os.listdir(__file__) ) == 0:
-            raise OSError(f'{__file__} directory is empty.')
-        elif os.path.isfile(__file__) and os.path.getsize(__file__) == 0:
-            raise OSError(f'{__file__} file is empty.')
-
-        if not ((os.path.isdir(__file__)) or os.path.isfile(__file__)):
-            raise ValueError('__file__ must be a path to a file or directory.')
-
-        if not isinstance(disable, bool):
-            raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
-
-        if not os.path.isdir(__d__):
-            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
-
     def txt_docx(self, output_font = 'Arial'):
         """Convert and Text Document type file or a directory with Text Document type files into `.docx` file/s.
 
@@ -261,6 +279,7 @@ class txtconvert:
         or if set output_font is not of type: str.
         """
 
+        _helpers.error_chk(args1 = self.__file__, args2 =self.disable, args3 = self.__d__)  # __init__ class parameter check for errors.
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
 
         type_check = _helpers.typecheck(__object__ = self.__file__)
@@ -271,8 +290,8 @@ class txtconvert:
         if output_font:
             if isinstance(output_font, int) or isinstance(output_font, float) or isinstance(output_font, list) or isinstance(output_font, tuple) or isinstance(output_font, bool):
                 raise TypeError(f'output_font parameter must be of type: str. Type:{(type(output_font)).__name__}')
-        elif isinstance(output_font, str):
-            pass
+            elif isinstance(output_font, str):
+                pass
 
         # Check if __file__ instance is a parent/child directory.
         if type_check == True:
@@ -346,7 +365,7 @@ class imgconvert:
                 >>> imgconv = imgconvert(__file__ = path/to/file/or_list_of_file_paths, d = path/to/output/directory)  
                 
                 >>> imgconv.img_pdf()"""
-    
+
     __d__: str
     __file__: str
     disable: bool
@@ -360,22 +379,8 @@ class imgconvert:
         self.disable = disable
         self.__d__ = __d__
 
-        # Check class arguments for errors.
-        if os.path.isdir(__file__) and len(os.listdir(__file__) ) == 0:
-            raise OSError(f'{__file__} directory is empty.')
-        elif os.path.isfile(__file__) and os.path.getsize(__file__) == 0:
-            raise OSError(f'{__file__} file is empty.')
-
-        if not ((os.path.isdir(__file__)) or os.path.isfile(__file__)):
-            raise ValueError('__file__ must be a path to a file or directory.')
-
-        if not isinstance(disable, bool):
-            raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
-
-        if not os.path.isdir(__d__):
-            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
-
-    def _pdfconv(self, __inp__, __outd__):
+    @staticmethod
+    def _pdfconv(__inp__: str, __outd__: str) -> str:
         """Inner function to convert an image file to pdf.
 
         Args:
@@ -394,12 +399,14 @@ class imgconvert:
         pdf_image.save(flsave)
         return flsave
 
-    def _64conv(self, __inp__, __outd__, enctp):
-        """Inner function to convert an image file to base64 UTF-8 encryption (.txt format).
+    @staticmethod
+    def _64conv(__inp__: str, __outd__: str, enctp: str) -> str:
+        """Static function to convert an image file to base64 UTF-8 encryption (.txt format).
 
         Args:
             * `__inp__` ([type]: `str`): Input file.
             * `__outd__` ([type]: `str`): Output directory.
+            * `enctp` ([type]: `str`): Encoding type.
 
         Returns:
             [type]: `str`: Output file path.
@@ -416,8 +423,9 @@ class imgconvert:
                 txt.write(base64_enctp)
             return txt_f
 
-    def _imgbnr(self, __inp__, __outd__, __kp__, __bw__):
-        """Inner function to convert an image file to binary. Original file format type is kept the same.
+    @staticmethod
+    def _imgbnr(__inp__: str, __outd__: str, __kp__: bool, __bw__: str) -> str:
+        """Static function to convert an image file to binary. Original file format type is kept the same.
 
         Args:
             * `__inp__` ([type]: `str`): Input file.
@@ -446,7 +454,75 @@ class imgconvert:
         cv2.imwrite(img_bw, img_binary)
         return img_bw
 
-    def images_binary(self, bwn = "", keep = True):
+    @staticmethod
+    def _tojpg(flname: str, infl: str, raw_ext: tuple) -> str:   # Used in type_check if and elif statements.
+            """Static function that converts the input image file to .jpeg/.jpg.
+
+            Args:
+            * `flname` ([type]: `str`): Path to input file or directory.
+            * `infl` ([type]: `str`): Name of input file.
+            * `raw_ext` ([type]: `tuple`): All supported raw extension file formats.
+
+            Returns:
+                ([type]: `str`): The full path of the output .jpeg/.jpg file."""
+
+            if infl.endswith(raw_ext):
+                outfl = flname + ".jpeg"
+                with rawpy.imread(infl) as raw:
+                    rgb = raw.postprocess(use_auto_wb = True)
+                Image.fromarray(rgb).save(outfl, quality = 90, optimize = True)
+                raw.close()
+            else:
+                outfl = flname + ".jpeg"
+                im = Image.open(infl)
+                out = im.convert("RGB")
+                out.save(outfl, "jpeg", quality=100, subsampling=2)
+            return outfl
+
+    @staticmethod
+    def _topng(flname: str, infl: str, raw_ext: tuple) -> str:   # Used in type_check if and elif statements.
+        """Static function that converts the input image file to .png.
+
+        Args:
+            * `flname` ([type]: `str`): Path to input file or directory.
+            * `infl` ([type]: `str`): Name of input file.
+            * `raw_ext` ([type]: `tuple`): All supported raw extension file formats.
+
+        Returns:
+            ([type]: `str`): The full path of the output .png file."""
+
+        if infl.endswith(raw_ext):
+            outfl = flname + ".png"
+            with rawpy.imread(infl) as raw:
+                rgb = raw.postprocess(use_auto_wb = True)
+            Image.fromarray(rgb).save(outfl, quality = 90, optimize = True)
+            raw.close()
+        else:
+            outfl = flname + ".png"
+            im = Image.open(infl)
+            out = im.convert("RGB")
+            out.save(outfl, "png", quality=100, subsampling=2)
+        return outfl
+
+    @staticmethod
+    def _loop_flobj(obj: str, fl: str, adir: tuple) -> str: # Used in for loop in directory contents list comprehension.
+        """Static function that assigns the name and path of the output file.
+
+        Args:
+            * `obj` ([type]: `str`): Path to directory.
+            * `fl` ([type]: `str`): Name of input file.
+            * `adir` ([type]: `tuple`): Output directory. Default is the current working directory. 
+
+        Returns:
+            ([type]: `str`): The full path of the output file and the full path of the input file."""
+
+        flpath = os.path.join(obj, fl)
+        file_name = os.path.splitext(os.path.basename(flpath))[0]
+        subdir = os.path.join(adir, file_name)
+
+        return subdir, flpath
+
+    def images_binary(self, bwn = "", keep = True) -> None:
         """Convert a single or multiple images to binary. 
 
         The input image/s must all be located in the same directory. Multiple directories are not supported.
@@ -460,6 +536,7 @@ class imgconvert:
         or if input directory does not contain any supported file format.
         """
 
+        _helpers.error_chk(args1 = self.__file__, args2 =self.disable, args3 = self.__d__)  # __init__ class parameter check for errors.
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
 
         type_check = _helpers.typecheck(__object__ = self.__file__)
@@ -495,7 +572,7 @@ class imgconvert:
         else:
             raise TypeError(f"{self.__file__} must either be a directory that contains at least 1 supported image file or an individual supported image file.")
 
-    def img_base64(self, encode_type = 'utf-8'):
+    def img_base64(self, encode_type = 'utf-8') -> None:
         """Encode an image file or directory with images to base64 and save it as `.txt`
         
         Args:
@@ -513,6 +590,7 @@ class imgconvert:
         * `.x3f`, `.srw`, `.srf`, `.sr2`, `.arw`, `.mdc`, `.bmp`, `.mrw`
         """
 
+        _helpers.error_chk(args1 = self.__file__, args2 =self.disable, args3 = self.__d__)  # __init__ class parameter check for errors.
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
         type_check = _helpers.typecheck(__object__ = self.__file__)
 
@@ -543,7 +621,7 @@ class imgconvert:
             output = self._64conv(__inp__ = self.__file__, __outd__ = self.__d__, enctp = encode_type)
             print(f'Conversion complete! New file is saved in {output}.')   
 
-    def img_pdf(self):
+    def img_pdf(self) -> None:
         """Convert an image file to `.pdf`.
 
         Supported file format inputs:
@@ -555,6 +633,7 @@ class imgconvert:
         * `.x3f`, `.srw`, `.srf`, `.sr2`, `.arw`, `.mdc`, `.bmp`, `.mrw`
         """
 
+        _helpers.error_chk(args1 = self.__file__, args2 =self.disable, args3 = self.__d__)  # __init__ class parameter check for errors.
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
 
         supp_ext = ( '.dng', '.raw', '.crw', '.erf', '.raf', '.tif', '.tiff', '.kdc', '.dcr', '.mos', '.mef', '.nef', '.orf', '.rw2', '.pef', 
@@ -575,7 +654,7 @@ class imgconvert:
             output = self._pdfconv(__inp__ = self.__file__, __outd__ = self.__d__)
             print(f'Conversion complete! New file is saved in {output}.')  
 
-    def img_format(self, format):
+    def img_format(self, format) -> None:
         """Convert either uncompressed image formats or compressed image formats to `.jpeg` and `.png`.
 
         Args:
@@ -594,6 +673,7 @@ class imgconvert:
         * .x3f, .srw, .srf, .sr2, .arw, .mdc, .bmp, .mrw
         """
 
+        _helpers.error_chk(args1 = self.__file__, args2 =self.disable, args3 = self.__d__)  # __init__ class parameter check for errors.
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
 
         ext = ( '.dng', '.raw', '.cr2', '.png', '.jpeg', '.jpg', '.crw', '.erf', '.raf', '.tif', '.tiff', '.kdc', '.dcr', '.mos', '.mef', '.nef', '.orf', '.rw2', '.pef', 
@@ -610,92 +690,42 @@ class imgconvert:
         if not format in supp_ext:
             raise TypeError(f"{format} file format not supported.")
 
-        def _tojpg(flname, infl):   # Used in type_check if and elif statements.
-            """Local function that converts the input image file to .jpeg/.jpg.
-
-            Returns:
-                ([type]: `str`): The full path of the output .jpeg/.jpg file."""
-
-            if infl.endswith(raw_ext):
-                outfl = flname + ".jpeg"
-                with rawpy.imread(infl) as raw:
-                    rgb = raw.postprocess(use_auto_wb = True)
-                Image.fromarray(rgb).save(outfl, quality = 90, optimize = True)
-                raw.close()
-            else:
-                outfl = flname + ".jpeg"
-                im = Image.open(infl)
-                out = im.convert("RGB")
-                out.save(outfl, "jpeg", quality=100, subsampling=2)
-            return outfl
-
-        def _topng(flname, infl):   # Used in type_check if and elif statements.
-            """Local function that converts the input image file to .png
-
-            Returns:
-                ([type]: `str`): The full path of the output .png file."""
-
-            if infl.endswith(raw_ext):
-                outfl = flname + ".png"
-                with rawpy.imread(infl) as raw:
-                    rgb = raw.postprocess(use_auto_wb = True)
-                Image.fromarray(rgb).save(outfl, quality = 90, optimize = True)
-                raw.close()
-            else:
-                outfl = flname + ".png"
-                im = Image.open(infl)
-                out = im.convert("RGB")
-                out.save(outfl, "png", quality=100, subsampling=2)
-            return outfl
-
-        def _loop_flobj(obj, fl, adir): # Used in for loop in directory contents list comprehension.
-            """Local function that assigns the name and path of the output file.
-
-            Returns:
-                ([type]: `str`): The full path of the output file [0] and the full path of the input file."""
-
-            flpath = os.path.join(obj, fl)
-            file_name = os.path.splitext(os.path.basename(flpath))[0]
-            subdir = os.path.join(adir, file_name)
-
-            return subdir, flpath
-
         type_check = _helpers.typecheck(__object__ = self.__file__)
 
         # __file__ is a parent/child directory.
         if type_check == True:
             dir_contents = _helpers.compatibility(__inpobj__ = self.__file__, __compat__ = ext)
             for f in tqdm(dir_contents, desc = 'Converting %i files to %s format' %(len(dir_contents),format) , unit=' Files', disable = self.disable):  # Iterate over all the entries
-                fl_handler = _loop_flobj(obj = self.__file__, fl = f, adir = self.__d__)
+                fl_handler = self._loop_flobj(obj = self.__file__, fl = f, adir = self.__d__)
                 var, obj_ext = os.path.splitext(f)    # var is placeholder, obj_ext is the input file extension.
                 if f.endswith(ext) and format == ".jpeg" and obj_ext !=".jpeg" and obj_ext !=".jpg":   # Desired format is JPEG.
-                    _tojpg(flname = fl_handler[0], infl = fl_handler[1])
+                    self._tojpg(flname = fl_handler[0], infl = fl_handler[1], raw_ext = raw_ext)
 
                 elif f.endswith(ext) and format == ".jpg" and obj_ext !=".jpeg" and obj_ext !=".jpg":   # Desired format is JPG.
-                    _tojpg(flname = fl_handler[0], infl = fl_handler[1])
+                    self._tojpg(flname = fl_handler[0], infl = fl_handler[1], raw_ext = raw_ext)
 
                 elif f.endswith(ext) and format == ".png" and obj_ext !=".png":    # Desired format is PNG.
-                    _topng(flname = fl_handler[0], infl = fl_handler[1])
+                    self._topng(flname = fl_handler[0], infl = fl_handler[1], raw_ext = raw_ext)
 
         # __file__ is not a parent/child directory, desired format is JPEG.
         elif type_check == False and self.__file__.endswith(ext) and format == ".jpeg":
             subdir = _helpers.outpath(dinput = self.__d__, flinput = self.__file__)
             print(f'Converting {self.__file__} into .jpeg format.')        
-            output = _tojpg(flname = subdir, infl = self.__file__)
+            output = self._tojpg(flname = subdir, infl = self.__file__, raw_ext = raw_ext)
             print(f'Conversion complete! New file is saved in {output}.')  
 
         # __file__ is not a parent/child directory, desired format is JPG.
         elif type_check == False and self.__file__.endswith(ext) and format == ".jpg":        
             subdir = _helpers.outpath(dinput = self.__d__, flinput = self.__file__)
             print(f'Converting {self.__file__} into .jpg format.') 
-            output = _tojpg(flname = subdir, infl = self.__file__)
+            output = self._tojpg(flname = subdir, infl = self.__file__, raw_ext = raw_ext)
             print(f'Conversion complete! New file is saved in {output}.')  
 
         # __file__ is not a parent/child directory, desired format is PNG.
         elif type_check == False and self.__file__.endswith(ext) and format == ".png":        
             subdir = _helpers.outpath(dinput = self.__d__, flinput = self.__file__)
             print(f'Converting {self.__file__} into .png format.') 
-            output = _topng(flname = subdir, infl = self.__file__)
+            output = self._topng(flname = subdir, infl = self.__file__, raw_ext = raw_ext)
             print(f'Conversion complete! New file is saved in {output}.')
 
         # __file__ format is not supported.
@@ -728,34 +758,14 @@ class sheetconvert:
     spreadsheet: str
     csv_file: str
     xlsx_name: str 
-    
-    ### TODO:   * Set internal functions as @staticmethods, since they don't access the instance of sheetconvert.
-    ###
-    ###         * Maybe make _conversion_method into @classmethod, since it's just a function that accesses 
-    ###           the static class methods, not the instance of sheetconvert.
-    
+
     def __init__(self, __file__, disable = False, __d__ = os.getcwd()):
         self.__file__ = __file__
         self.disable = disable
         self.__d__ = __d__
 
-        # Check class arguments for errors.
-        if os.path.isdir(__file__) and len(os.listdir(__file__) ) == 0:
-            raise OSError(f'{__file__} directory is empty.')
-        elif os.path.isfile(__file__) and os.path.getsize(__file__) == 0:
-            raise OSError(f'{__file__} file is empty.')
-
-        if not ((os.path.isdir(__file__)) or os.path.isfile(__file__)):
-            raise ValueError('__file__ must be a path to a file or directory.')
-
-        if not isinstance(disable, bool):
-            raise ValueError(f'disable must be Boolean, not of Type: {(type(disable)).__name__}.')
-
-        if not os.path.isdir(__d__):
-            raise ValueError(f'__d__ must be a directory and of Type: string, not equal to {__d__} and of Type: {(type(__d__)).__name__}.')
-
     @staticmethod
-    def _xlsx_csv(spreadsheet, direc):
+    def _xlsx_csv(spreadsheet: str, direc: str) -> str:
             """Static method to convert an `.xslx` file to a `.csv` file.
 
             Args:
@@ -775,7 +785,7 @@ class sheetconvert:
             return csv_file
 
     @staticmethod
-    def _csv_xlsx(spreadsheet, direc):
+    def _csv_xlsx(spreadsheet: str, direc: str) -> str:
         """Static method to convert a `.csv` file to an `.xlsx` file.
 
         Args:
@@ -799,7 +809,7 @@ class sheetconvert:
             return xlsx_name
 
     @staticmethod
-    def _xlsx_tsv(spreadsheet, direc):
+    def _xlsx_tsv(spreadsheet: str, direc: str) -> str:
         """Static method to convert an `.xlsx` file to a `.tsv` file.
 
         Args:
@@ -821,7 +831,7 @@ class sheetconvert:
         return outtsv
 
     @staticmethod
-    def _tsv_xlsx(spreadsheet, direc):
+    def _tsv_xlsx(spreadsheet: str, direc: str) -> str:
         """Static method to convert a `.tsv` file to an `.xlsx` file.
 
         Args:
@@ -847,7 +857,7 @@ class sheetconvert:
         return xlsxp
 
     @staticmethod
-    def _csv_tsv_csv(spreadsheet, direc):
+    def _csv_tsv_csv(spreadsheet: str, direc: str) -> str:
         """Static method to convert a `.csv` file to a `.tsv` file and vice versa.
 
         Args:
@@ -884,12 +894,12 @@ class sheetconvert:
             return tsvp
 
     @classmethod
-    def _conversion_method(cls, __inp__, outdir, typeinp):
+    def _conversion_method(cls, __inp__: str, outdir: str, typeinp: str) -> str:
         """Class method that checks for which conversion type the user requests and correlates that with the input file type.
 
         Args:
             * `__inp__` ([type]: `str`): Input file.
-            * `outdir` ([type]): Output directory.
+            * `outdir` ([type]: `str`): Output directory.
             * `typeinp` ([type]: `str`): Type of output file.
         """
 
@@ -919,7 +929,7 @@ class sheetconvert:
 
         return output
 
-    def convertsh(self, totype, fromtype):
+    def convertsh(self, totype: str, fromtype: str) -> None:
         """Convert an `.xlsx`/`.csv`/`.tsv` file to either `.xlsx` or `.csv` or `.tsv`. 
 
         If the file is directory, it converts all the files in the directory 
@@ -930,6 +940,7 @@ class sheetconvert:
             * `totype` ([type]:`str`): type of converion, e.g: '.csv', '.xlsx', '.tsv'.
         """
 
+        _helpers.error_chk(args1 = self.__file__, args2 =self.disable, args3 = self.__d__)  # __init__ class parameter check for errors.
         _inpchecker(inp1 = self.__file__, inp2 = self.__d__, ftype = str)  # Check if objects are strings and for the existance of the input paths.
 
         supp_ext = ( ".xlsx", ".csv", ".tsv" )  # Spreadsheet supported extenstions.
