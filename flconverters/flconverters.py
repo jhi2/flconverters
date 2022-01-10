@@ -198,7 +198,7 @@ class _helpers:
         return subdir
 
 class txtconvert:
-    """Holds function to convert .txt and other text document files into .docx format. Conversions include
+    """Holds function to convert .txt and other text document files into .docx format.
 
     Args:
         * `__file__` ([type]: `str`): Input file/directory.
@@ -243,7 +243,7 @@ class txtconvert:
 
     def txt_docx(self, output_font = 'Arial'):
         """Convert and Text Document type file or a directory with Text Document type files into `.docx` file/s.
-        
+
         Supported Text Document formats:
 
             *`.txt`
@@ -257,7 +257,7 @@ class txtconvert:
 
         Raises:
         * `TypeError`: Raised when file is not a supported text document, or if input is not a file/directory,
-        or if input directory does not contain any supported file format. Can also be raised when no output_font is set, 
+        or if input directory does not contain any supported file format. Can also be raised when no output_font is set,
         or if set output_font is not of type: str.
         """
 
