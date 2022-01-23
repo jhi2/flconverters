@@ -430,8 +430,10 @@ class imgconvert:
         Args:
             * `__inp__` ([type]: `str`): Input file.
             * `__outd__` ([type]: `str`): Output directory.
-            * `__kp__` ([type]: `bool`): Sets wheter or not to keep the original file. Only used when `__outd__` is the same as the directory of the input file/s.
-            * `__bw__` ([type]: `str`): [description]
+            * `__kp__` ([type]: `bool`): Sets wheter or not to keep the original file. Only used when `__outd__` is 
+                                        the same as the directory of the input file/s.
+            * `__bw__` ([type]: `str`): Rename the output file. If not used, but the output directory 
+                                        is the working directory and __kp__ = True, __bw__ is set to bnr.
 
         Returns:
             [type]: `str`: Path of output file.
