@@ -560,7 +560,7 @@ class imgconvert:
 
         # inp_path instance is a parent/child directory.
         if type_check == True:
-            for f in tqdm(dir_contents, desc = 'Converting %i files to a binary format' %len(dir_contents), unit=' Files', disable = self.disable):  # Iterate over all the entries
+            for f in tqdm(dir_contents, desc = f'Converting {len(dir_contents)} files to a binary format', unit = ' Files', disable = self.disable):  # Iterate over all the entries
                 flinp = os.path.join(self.inp_path, f)  # Build full path of each iterated input file.
                 self._imgbnr(__inp__ = flinp, __outd__ = self.outp_dir, __kp__ = keep, __bw__ = bwn)
 
@@ -609,12 +609,12 @@ class imgconvert:
         supp_enc = ('utf-8', 'utf-16', 'utf-32', 'ascii')
         if not encode_type in supp_enc:
             x = ','.join([str(" " + i) for i in supp_enc])
-            raise TypeError(f'{encode_type} encoding type is not supported. Only{x} encodings are supported.')
+            raise TypeError(f'{encode_type} encoding type is not supported. Only {x} encodings are supported.')
 
         # inp_path is a parent/child directory.
         if type_check == True:
             dir_contents = _helpers.compatibility(__inpobj__ = self.inp_path, __compat__ = supp_ext)
-            for f in tqdm(dir_contents, desc = 'Converting %i files to base64 format with %s encoding' %(len(dir_contents), encode_type), unit=' Files', disable = self.disable):  # Iterate over all the entries
+            for f in tqdm(dir_contents, desc = f'Converting {len(dir_contents)} files to base64 format with {encode_type} encoding'), unit = ' Files', disable = self.disable):  # Iterate over all the entries
                 flinp = os.path.join(self.inp_path, f)
                 self._64conv(__inp__ = flinp, __outd__ = self.outp_dir, enctp = encode_type) 
 
@@ -647,7 +647,7 @@ class imgconvert:
         # inp_path is a parent/child directory.
         if type_check == True:
             dir_contents = _helpers.compatibility(__inpobj__ = self.inp_path, __compat__ = supp_ext)
-            for f in tqdm(dir_contents, desc = 'Converting %i files to .pdf format' %len(dir_contents) , unit=' Files', disable = self.disable):  # Iterate over all the entries
+            for f in tqdm(dir_contents, desc = f'Converting {len(dir_contents)} files to .pdf format', unit=' Files', disable = self.disable):  # Iterate over all the entries
                 flinp = os.path.join(self.inp_path, f)
                 self._pdfconv(__inp__ = flinp, __outd__ = self.outp_dir)
 
@@ -697,7 +697,7 @@ class imgconvert:
         # inp_path is a parent/child directory.
         if type_check == True:
             dir_contents = _helpers.compatibility(__inpobj__ = self.inp_path, __compat__ = ext)
-            for f in tqdm(dir_contents, desc = 'Converting %i files to %s format' %(len(dir_contents),format) , unit=' Files', disable = self.disable):  # Iterate over all the entries
+            for f in tqdm(dir_contents, desc = f'Converting {len(dir_contents)} files to {format} format') , unit=' Files', disable = self.disable):  # Iterate over all the entries
                 fl_handler = self._loop_flobj(obj = self.inp_path, fl = f, adir = self.outp_dir)
                 var, obj_ext = os.path.splitext(f)    # var is placeholder, obj_ext is the input file extension.
                 if f.endswith(ext) and format == ".jpeg" and obj_ext !=".jpeg" and obj_ext !=".jpg":   # Desired format is JPEG.
@@ -961,7 +961,7 @@ class sheetconvert:
                 dir_contents = _helpers.compatibility(__inpobj__ = self.inp_path, __compat__ = supp_ext)
                 dir_contents[:] = [fl for fl in dir_contents if any(ext not in fl for ext in totype)]   # Removes elements in directory that contain the selected extension.
                 dir_contents[:] = [fl for fl in dir_contents if any(ext in fl for ext in fromtype)]   # Removes elements in directory that don't contain the selected extension.
-                for f in tqdm(dir_contents, desc = 'Converting %i files to %s format' %(len(dir_contents),totype) , unit=' Files', disable = self.disable):  # Iterate over all the entries
+                for f in tqdm(dir_contents, desc = f'Converting {len(dir_contents)} files to {totype} format') , unit=' Files', disable = self.disable):  # Iterate over all the entries
                     build_fpath = os.path.join(self.inp_path, f)
                     self._conversion_method(__inp__ = build_fpath, outdir = self.outp_dir, typeinp = totype)
             elif isinstance(fromtype, None):
