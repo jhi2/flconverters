@@ -1,25 +1,21 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+from typing import Literal
+
 """Contains multiple classes for file conversions. These include:
     >>> txtconvert
     >>> imgconvert
     >>> sheetconvert
 """
 
-import os
-import errno
-import chardet
+import os, errno, chardet, csv, cv2, base64, rawpy, docx, warnings
 from pathlib import Path
-import csv
-import cv2
-import base64
 from PIL import Image
 import pandas as pd
-import rawpy
-import docx
 from docx.shared import Pt
 from tqdm import tqdm
 from pathlib import Path
 from xlsxwriter.workbook import Workbook
-import warnings
 warnings.filterwarnings("ignore")
 
 class _basehelpers:
@@ -62,7 +58,7 @@ class _basehelpers:
             if not Path(inp).exists():
                 raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), inp)
 
-def _inpchecker(inp1, inp2, ftype):
+def _inpchecker(inp1: str, inp2: str, ftype: str) -> None:
     """Runs all the functions of the _basehelpers class. 
 
     Args:
@@ -87,7 +83,7 @@ class _helpers:
     """
 
     @staticmethod
-    def sminp(inp, outext):
+    def sminp(inp: str, outext: str) -> (TypeError | Literal[True]):
         """Check if input file has the same extension as the requested extension.
 
         Args:
@@ -101,9 +97,11 @@ class _helpers:
         f, f_ext = os.path.splitext(inp)    # Get file extension as str.
         if f_ext == outext:
             return TypeError(f'{f} file is already a {outext} file')
+        else:
+            return True
 
     @staticmethod
-    def outpath(dinput, flinput):
+    def outpath(dinput: str, flinput: str) -> str:
             """Generate output file path.
 
             Args:
@@ -120,7 +118,7 @@ class _helpers:
             return subdir
 
     @staticmethod
-    def compatibility(__inpobj__, __compat__):
+    def compatibility(__inpobj__: str, __compat__: list) -> list[str]:
         """Check for file/s compatibility.
 
         Removes elements from an object (`__inpobj__`) that don't contain substrings
@@ -148,7 +146,7 @@ class _helpers:
         return list(contents)
 
     @staticmethod
-    def typencd(__inpobj__):
+    def typencd(__inpobj__: str) -> str:
         """Find encoding type of file.
 
         Args:
@@ -165,7 +163,7 @@ class _helpers:
         return str(charenc)
 
     @staticmethod
-    def typecheck(__object__):
+    def typecheck(__object__: str) -> bool:
         """Check whether object is a directory.
 
         Args:
@@ -182,7 +180,7 @@ class _helpers:
         return os.path.isdir(__object__)
 
     @staticmethod
-    def outpath(dinput, flinput):
+    def outpath(dinput: str, flinput: str) -> str:
         """Generate output file path.
 
         Args:
